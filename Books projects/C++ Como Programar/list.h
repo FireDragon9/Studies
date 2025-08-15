@@ -137,6 +137,9 @@ bool List<NODETYPE>::removeFromBack(NODETYPE& value){
         currentPtr = currentPtr->nextPtr; //move para o próximo nó
       }
 
+      lastPtr = currentPtr;
+      currentPtr->nextPtr = 0;
+
     }//else 
 
     value = temPtr->data; //retorna valor do ultimo no antigo 
@@ -147,6 +150,46 @@ bool List<NODETYPE>::removeFromBack(NODETYPE& value){
 
 }//remove from back
 
-//isEmpty pag 805
+
+//lista está vazia?
+template<typename NODETYPE>
+bool List<NODETYPE>::isEmpty() const{
+  return firstPtr == 0;
+}//is empty
+
+//retorna ponteiro para nó recentemente alocado
+template<typename NODETYPE>
+ListNode<NODETYPE>* List<NODETYPE>::getNewMode(const NODETYPE& value){
+
+  return new ListNode<NODETYPE>(value);
+
+}//getNewMode
+
+//exibe o conteudo de List 
+
+template<typename NODETYPE>
+void List<NODETYPE>::print() const{
+
+  if(isEmpty()){ //lista está vazia
+
+    cout << "The List is empty\n\n";
+    return;
+
+  }//fim do if
+
+  ListNode<NODETYPE>* currentPtr = firstPtr;
+
+  cout << "The list is: ";
+
+  while(currentPtr != 0){ //obtem dados de elemento
+
+    cout << currentPtr->data << ' ';
+    currentPtr = currentPtr->nextPtr;
+
+  }//while 
+
+  cout << "\n\n";
+
+}
 
 #endif 
