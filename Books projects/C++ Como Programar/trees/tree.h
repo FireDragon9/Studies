@@ -14,14 +14,18 @@ template<typename NODETYPE> class Tree{
   public:
 
     Tree(); //constructor
-    void insertNode(const NODETYPE&);
+    void insertNode(const NODETYPE&); //insere novo nó na árvore 
+    //percorrem a árvore de forma designada
+    //cada uma dessas funções membro chama sua propria função utiitária recursiva separada para realizar as operações apropriadas na representação 
+    //interna da árvore 
+    //assim, o programa não precisa acessar os dados private subjacentes para realizar essas funções 
     void preOrderTraversal() const;
     void inOrderTraversal() const;
     void postOrderTraversal() const;
 
 
   private:
-    TreeNode<NODETYPE> *rootPtr;
+    TreeNode<NODETYPE> *rootPtr; //ponteiro para o nó-raiz 
 
     //funções utilitárias
     void insertNodeHelper(TreeNode<NODETYPE>**, const NODETYPE&);
@@ -47,6 +51,9 @@ void Tree<NODETYPE>::insertNode(const NODETYPE& value){
 
 /*Função utilitária chamada por insertNode; recebe um ponteiro
  * para que a função possa modificar o valor do ponteiro*/
+//chamado por insertNode para inserir recursivamente um nó na linha
+//um nó pode somente ser inserido como um nó-folha  em uma árvore de pesquisa binária
+//primeiro argumento de inserNodeHelper é declarado como um ponteiro para um ponteiro para uma TreeNode
 template<typename NODETYPE>
 void Tree<NODETYPE>::insertNodeHelper( TreeNode<NODETYPE>**ptr, const NODETYPE& value){
 
@@ -54,16 +61,20 @@ void Tree<NODETYPE>::insertNodeHelper( TreeNode<NODETYPE>**ptr, const NODETYPE& 
   if(*ptr == 0){
     *ptr = new TreeNode<NODETYPE>(value);
   }else{
-
+    
+    //programa compara o valor a ser inserido com o valor data no nó-raiz 
+    
     //os dados a inserir sao menores que os dados no nó atual
-    if(value < (*ptr)->data){
-      insertNodeHelper(&((*ptr)->leftPtr), value);
+    if(value < (*ptr)->data){ 
+    
+      insertNodeHelper(&((*ptr)->leftPtr), value); //insere o valor na subárvore esquerda
+    
     }else{
 
       //os dados a inserir sao maiores que os dados no nó atual
       if(value>(*ptr)->data){
-        insertNodeHelper(&((*ptr)->rightPtr), value);
-      }else{
+        insertNodeHelper(&((*ptr)->rightPtr), value); //insere o valor na subárvore direita 
+      }else{ //se o valor a ser inserido é identico aos valores dos dados no nó raiz 
         cout << value << " dup\n";
       }//else
 
