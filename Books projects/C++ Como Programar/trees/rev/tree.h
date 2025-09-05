@@ -1,69 +1,80 @@
 #ifndef TREE_H
 #define TREE_H
+
 #include <iostream>
 #include "treeNode.h"
 
 using namespace std;
 
-template <typename NODETYPE>class tree{
+class tree{
 
   private:
-    treeNode<NODETYPE>* rootTree;
-    
-    //funções utilitária
-    void insertNodeHelper(treeNode<NODETYPE>**, const NODETYPE&);
-
+    treeNode* rootPtr;
+    void insertNodeHelper(treeNode**, const int& num);
+    void showTreeHelper(treeNode*);
   public:
-    
-    tree();
+  tree() : rootPtr(0){};
+  
+  void insertNode(const int num);
+  void showTree(); 
 
-    void insertNode(const NODETYPE&); //vai chamar insertNodeHelper recursivamente  
+};
 
-}; //tree
+void tree::insertNode(const int num){
 
-template<typename NODETYPE>
-tree<NODETYPE>::tree(){
-  rootTree = 0;
+  insertNodeHelper(&rootPtr, num);
+
 }
 
-template<typename NODETYPE>
-void tree<NODETYPE>::insertNode(const NODETYPE& value){
-  insertNodeHelper(&rootTree, value);
-}
+void tree::insertNodeHelper(treeNode** root, const int& num){
 
-template<typename NODETYPE>
-void tree<NODETYPE>::insertNodeHelper(treeNode<NODETYPE>** ptr,  const NODETYPE& value){
+  //nao tem um valor
+  if(*root == 0){
 
-  //subárvore está vazia; cria novo treeNode
-  if(*ptr == 0){
-
-    *ptr = new treeNode<NODETYPE>(value);
+    *root = new treeNode(num);
 
   }else{
 
-    //checando se os dados a inserir sao menores que os dados do nó atual
-    if(value < (*ptr)->data){
-    
-      insertNodeHelper(&((*ptr)->leftSubTree), value); //insere valor na subarvore esquerda 
-    
-    }else{ //os dados a inserir sao maiores que o dado atual 
+    //num é menor que o 
+    if(num < (*root)->data){
+      
+      //chama novamente a mesma função mas com o root sendo o leftPtr 
+      //pois num é MENOR que que o root atual
+      insertNodeHelper(&((*root)->leftPtr), num);
 
-      if (value > (*ptr)->data){
+    }else{
+      
+      //checa se for maior
+      if(num>(*root)->data){
         
-        insertNodeHelper(&((*ptr)->rightSubTree), value);
-    
-      }else{ //o valor é o mesmo
+        //chama novamente a mesma função mas com o root sendo rightPtr
+        //pois num é MAIOR que o root atual
+        insertNodeHelper(&((*root)->rightPtr), num);
 
-        cout << value << " dup\n";
+      }else if (num == (*root)->data){ //se o valor do data do root atual for o mesmo que num
+        cout << num << " duplicated\n"; //valor duplicado
+      }
 
-      }//else
-    
     }//else
-
-
+    
   }//else
 
 }//insertNodeHelper
 
+void tree::showTree(){
+  showTreeHelper(rootPtr);
+}
 
-#endif
+void tree::showTreeHelper(treeNode* root){
+
+  if(root != 0){
+
+    cout << root->data << ' ';
+    showTreeHelper(root->leftPtr);
+    showTreeHelper(root->rightPtr);
+
+  }
+
+}
+
+#endif // !TREE_H

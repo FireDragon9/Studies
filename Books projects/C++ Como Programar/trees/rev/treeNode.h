@@ -1,27 +1,25 @@
 #ifndef TREENODE_H
 #define TREENODE_H
 
-template<typename NODETYPE> class tree;
+class tree;
 
-template<typename NODETYPE>
 class treeNode{
 
-  friend class tree<NODETYPE>;
+  friend class tree;
 
   private:
-    treeNode* leftSubTree;
-    treeNode* rightSubTree;
-    NODETYPE data;
+    
+    treeNode* leftPtr, *rightPtr;
+    int data;
 
   public:
-    treeNode(const NODETYPE& d) : leftSubTree(0), rightSubTree(0), data(d){
+    treeNode(const int& num) : leftPtr(0), rightPtr(0), data(num){};
 
-    }
-    
-    NODETYPE getData() const{
-      return data;
+    int getData(){
+     return data;
     }
 
-}; //treeNode
+}; //class 
 
-#endif
+
+#endif // !TREENODE_H
